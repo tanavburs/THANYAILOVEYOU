@@ -1,207 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Anniversary</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        h1, p {
-            font-family: 'Hind', sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anniversary Message</title>
+  <style>
+    /* CSS Variables */
+    :root {
+      --animation-duration: 2s;
+      --primary-color: #eee;
+      --shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    }
 
-        p {
-            text-indent: 50px;
-        }
+    /* General Styling */
+    h1,
+    p {
+      font-family: 'Hind', sans-serif;
+    }
 
-        h1 {
-            font-weight: 200;
-        }
+    p {
+      text-indent: 50px;
+    }
 
-        html, body {
-            margin: 0;
-            height: 100%;
-        }
+    h1 {
+      font-weight: 200;
+    }
 
-        .container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            background-color: #fce4ec;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    body {
+      margin: 0;
+    }
 
-        .heart {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            text-align: center;
-            transform: translate(-50%, -50%);
-            transition: transform 2s;
-            z-index: 1;
-        }
+    /* Container */
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
 
-        .heart > img {
-            width: 50px;
-            height: auto;
-        }
+    /* Heart */
+    .heart {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      text-align: center;
+      transform: translate(-50%, -50%);
+      transition: transform var(--animation-duration);
+      z-index: 1;
+      cursor: pointer;
+    }
 
-        .message {
-            padding: 20px;
-            background-color: #eee;
-            min-width: 80%;
-            height: 75%;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 0;
-            overflow: auto;
-            animation-name: openmsg;
-            animation-duration: 2s;
-            animation-timing-function: linear;
-            animation-play-state: paused;
-            animation-fill-mode: forwards;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-            border-radius: 5px;
-            display: none;
-        }
+    .heart > img {
+      width: 50px;
+      height: auto;
+    }
 
-        .heart > img:hover {
-            animation-name: beat;
-            animation-duration: 2s;
-            animation-timing-function: ease-in-out;
-            animation-iteration-count: infinite;
-            animation-play-state: running;
-        }
+    .heart:hover img {
+      transform: scale(1.1);
+      transition: transform 0.3s ease;
+    }
 
-        @keyframes beat {
-            0%, 60%, 100% { width: 50px; }
-            25%, 75% { width: 58px; }
-            50% { width: 45px; }
-        }
+    /* Message */
+    .message {
+      padding: 20px;
+      background-color: var(--primary-color);
+      min-width: 80%;
+      height: 75%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      overflow: hidden;
+      animation: openmsg var(--animation-duration) linear paused forwards;
+      box-shadow: var(--shadow);
+      border-radius: 5px;
+    }
 
-        @keyframes openmsg {
-            0% { height: 0px; padding: 0px 20px; }
-            100% { height: 75%; padding: 20px 20px; }
-        }
+    /* Animations */
+    @keyframes beat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.16); }
+      30% { transform: scale(1); }
+      50% { transform: scale(0.9); }
+      60% { transform: scale(1); }
+      75% { transform: scale(1.16); }
+      100% { transform: scale(1); }
+    }
 
-        @keyframes heartMove {
-            0% { top: 50%; }
-            100% { top: 85%; transform: translate(-50%, 0); }
-        }
+    @keyframes openmsg {
+      0% { height: 0; padding: 0 20px; }
+      100% { height: 75%; padding: 20px; }
+    }
 
-        .openNor {
-            animation-direction: normal;
-            animation-play-state: running;
-            display: block;
-        }
+    @keyframes heartMove {
+      0% { top: 50%; }
+      100% { top: 85%; transform: translate(-50%, 0); }
+    }
 
-        .closeNor {
-            animation-direction: reverse;
-            animation-play-state: running;
-        }
+    /* Animation Classes */
+    .openNor {
+      animation-direction: normal;
+      animation-play-state: running;
+    }
 
-        .no-anim {
-            animation: none;
-        }
+    .closeNor {
+      animation-direction: reverse;
+      animation-play-state: running;
+    }
 
-        .closed {
-            height: 0px;
-            padding: 0px 20px;
-        }
+    .no-anim {
+      animation: none;
+    }
 
-        .openHer {
-            animation-name: heartMove;
-            animation-duration: 2s;
-            animation-timing-function: linear;
-            animation-play-state: running;
-            animation-fill-mode: forwards;
-        }
+    .closed {
+      height: 0;
+      padding: 0 20px;
+    }
 
-        .closeHer {
-            animation-name: heartMove;
-            animation-duration: 2s;
-            animation-timing-function: linear;
-            animation-play-state: running;
-            animation-direction: reverse;
-            animation-fill-mode: forwards;
-        }
+    .openHer {
+      animation: heartMove var(--animation-duration) linear forwards running;
+    }
 
-        .beating > img {
-            animation-name: beat;
-            animation-duration: 2s;
-            animation-timing-function: ease-in-out;
-            animation-iteration-count: infinite;
-            animation-play-state: running;
-        }
+    .closeHer {
+      animation: heartMove var(--animation-duration) linear reverse forwards running;
+    }
 
-        .openedHer {
-            top: 85%;
-            transform: translate(-50%, 0);
-        }
-    </style>
+    .beating > img {
+      animation: beat var(--animation-duration) ease-in-out infinite running;
+    }
+
+    .openedHer {
+      top: 85%;
+      transform: translate(-50%, 0);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .message {
+        min-width: 90%;
+        font-size: 14px;
+      }
+    }
+  </style>
 </head>
 <body>
-
-<div class="container">
+  <div class="container">
     <label>
-        <div class="heart">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Love_Heart_SVG.svg" alt="Heart">
-        </div>
-        <input id="messageState" type="checkbox" style="display:none">
+      <div class="heart">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Love_Heart_SVG.svg" alt="Heart Icon">
+      </div>
+      <input id="messageState" type="checkbox" style="display:none">
     </label>
     <div class="message">
-        <h1>Hiiii bbg,</h1>
-        <p>
-            Happy one-year anniversary princessssss❤️❤️❤️😘😘😘!!!! Today marks 365 days of laughter, growth, and an abundanceee of countless memories that have woven our hearts together...
-        </p>
+      <h1>Hiiii bbg,</h1>
+      <p>
+        Happy one-year anniversary princessssss❤️❤️❤️😘😘😘!!!! Today marks 365 days of laughter, growth, and an abundanceee of countless memories that have woven our hearts together in many ways I never imagined possible.... From the moment we met, you’ve been my guiding luminescenceee, my calm, and my greatest adventure ive ever haddd..... Every smile justtt made my day.... "Her smile just hugged me", every conversationnn weve had through the yearrr and every quiet moment with you has felt like a piece of a puzzle falling perfectly into place.... As though the universe itself conspiered to bring uss togetherrr... a celestial alignmenttt.... "We are asleep until we have fallen in love".... You’ve shown me what it means to love and be loved..... This past year has been a testament to the beauty of loveeee... and to howww its has these magical powers off healinggg.... You inspire me to be better, to dream bigger, and to cherish every moment we share. I’m so proud of us...... of how weve been through all the ups and the downnn... even though it was not a perfectt yearrr it was the best year ive ever hadddd.... Here’s to us, to the love we’ve nurtured, and to the infiniteeee years ahead filled with even more laughter, adventures, and endless love. You are my everything bbbbgggg, and I can’t wait to see what the future holds for us. U AINT LEAVING MEEE AND I AINT LEAVING YOU. PERIOD... I love you more than words could ever express, today and always andddd for manyy years to comeeee bbbggg. Happy anniversary, my prinesssssss i LOVEEEE YOUUU❤️❤️❤️😘😘😘<3
+      </p>
     </div>
-</div>
+  </div>
 
-<script>
-    $(document).ready(function() {
-        $("#messageState").on("change", function() {
-            $(".message").removeClass("openNor closeNor");
-            if ($(this).is(":checked")) {
-                $(".message").removeClass("closed no-anim").addClass("openNor");
-                $(".heart").removeClass("closeHer openedHer").addClass("openHer");
-                $(".container").stop().animate({ "backgroundColor": "#f48fb1" }, 2000);
-                console.log("Abrindo");
-            } else {
-                $(".message").removeClass("no-anim").addClass("closeNor");
-                $(".heart").removeClass("openHer openedHer").addClass("closeHer");
-                $(".container").stop().animate({ "backgroundColor": "#fce4ec" }, 2000);
-                console.log("Fechando");
-            }
-        });
+  <!-- Load jQuery First -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        $(".message").off("animationend webkitAnimationEnd oanimationend msAnimationEnd").on("animationend webkitAnimationEnd oanimationend msAnimationEnd", function() {
-            console.log("Animation End");
-            if ($(this).hasClass("closeNor")) {
-                $(this).addClass("closed");
-            }
-            $(this).removeClass("openNor closeNor").addClass("no-anim");
-        });
+  <!-- Your Custom Script -->
+  <script>
+    $(document).ready(function () {
+      $("#messageState").on("change", function () {
+        $(".message").removeClass("openNor closeNor");
+        if ($(this).is(":checked")) {
+          $(".message").removeClass("closed no-anim").addClass("openNor");
+          $(".heart").removeClass("closeHer openedHer").addClass("openHer");
+          $(".container").stop().animate({ backgroundColor: "#f48fb1" }, 2000);
+          console.log("Abrindo");
+        } else {
+          $(".message").removeClass("no-anim").addClass("closeNor");
+          $(".heart").removeClass("openHer openedHer").addClass("closeHer");
+          $(".container").stop().animate({ backgroundColor: "#fce4ec" }, 2000);
+          console.log("Fechando");
+        }
+      });
 
-        $(".heart").off("animationend webkitAnimationEnd oanimationend msAnimationEnd").on("animationend webkitAnimationEnd oanimationend msAnimationEnd", function() {
-            console.log("Animation End");
-            if (!$(this).hasClass("closeHer")) {
-                $(this).addClass("openedHer beating");
-            } else {
-                $(this).removeClass("beating").addClass("no-anim");
-            }
-            $(this).removeClass("openHer closeHer");
-        });
+      $(".message").off("animationend webkitAnimationEnd oanimationend msAnimationEnd").on("animationend webkitAnimationEnd oanimationend msAnimationEnd", function () {
+        console.log("Animation End");
+        if ($(this).hasClass("closeNor")) {
+          $(this).addClass("closed");
+        }
+        $(this).removeClass("openNor closeNor").addClass("no-anim");
+      });
 
-        $(".heart img").on("click", function() {
-            $("#messageState").prop("checked", !$("#messageState").prop("checked")).trigger("change");
-        });
+      $(".heart").off("animationend webkitAnimationEnd oanimationend msAnimationEnd").on("animationend webkitAnimationEnd oanimationend msAnimationEnd", function () {
+        console.log("Animation End");
+        if (!$(this).hasClass("closeHer")) {
+          $(this).addClass("openedHer beating");
+        } else {
+          $(this).removeClass("beating").addClass("no-anim");
+        }
+        $(this).removeClass("openHer closeHer");
+      });
     });
-</script>
-
+  </script>
 </body>
 </html>
